@@ -1,12 +1,12 @@
 var restify = require('restify');
-var place = require('../src/place.model');
+var place = require('../../../src/domains/place.model');
 
 describe('App', function () {
   var server, app;
-  app = require('../src/app');
+  app = require('../../../src/server.js');
 
   beforeEach(function () {
-    server = createSpyObj('server', ['get', 'listen', 'use']);
+    server = createSpyObj('server', ['get', 'post', 'listen', 'use']);
     spyOn(restify, 'createServer').andReturn(server);
     spyOn(restify, 'queryParser').andReturn(jasmine.any(Function));
   });
@@ -51,7 +51,7 @@ describe('App', function () {
       expect(place.find).toHaveBeenCalledWith({
         loc: {
           $near: [1.2, 3.4],
-          $maxDistance: 100
+          $maxDistance: 0.008992805755395683
         }
       });
     });

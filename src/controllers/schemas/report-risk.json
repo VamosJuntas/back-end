@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "properties": {
+    "address": {
+      "type": "string"
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "integer"
+        },
+        "longitude": {
+          "type": "integer"
+        }
+      },
+      "required": ["latitude", "longitude"]
+    },
+    "risk": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "period": {
+      "type": "string"
+    }
+  },
+  "required": ["address", "location", "risk", "date", "period"]
+}
