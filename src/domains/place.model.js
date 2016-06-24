@@ -18,7 +18,4 @@ var placeSchema = mongoose.Schema({
     ]
 });
 
-placeSchema.statics.findByAddress = function(address, location){
-};
-
 module.exports = mongoose.model('Place', placeSchema);

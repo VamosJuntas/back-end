@@ -21,21 +21,5 @@ describe('Place Service', function() {
     placeService.create(params).should.be.rejected.and.notify(done);
     expect(Place.create).toHaveBeenCalledWith(params);
   });
-
-  describe ('When a place is found', function (){
-    beforeEach(function(){
-      var place = {b:2};
-      spyOn(Place, 'findOne');
-      placeService.create(params)
-
-    });
-
-    it('should call Place.create', function() {
-
-    });
-
-  });
-
-  describe ('When a place is not found', function (){
-  });
+  
 });
