@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
 
 var connectionURL = {
+  development: 'mongodb://localhost/vamosjuntas',
   test: 'mongodb://localhost/vamosjuntas_test',
-  app: 'mongodb://localhost/vamosjuntas'
+  production: process.env.MONGODB_URI
 };
 
 var open = function (mode) {

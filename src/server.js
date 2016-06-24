@@ -1,14 +1,15 @@
 var restify = require('restify');
-var database = require('../db.connection');
-var controllers = require('../controllers');
+var database = require('./db.connection');
+var controllers = require('./controllers');
 var port = process.env.VAMOS_JUNTAS_PORT || 8080;
+var server;
 
 module.exports = {
-  start: function () {
+  start: function(callback) {
 
-    var server = restify.createServer({
+    server = restify.createServer({
       name: 'VamosJuntas'
-    });
+    }); 
 
     server.use(restify.queryParser());
     server.use(restify.bodyParser());
@@ -18,7 +19,16 @@ module.exports = {
 
     server.listen(port, function() {
       database.open();
-    	console.log('Vamos Juntas Start :D');
+      console.log('VamosJuntas started in port %d', port);
+      //callback to call when the server is ready
+      if(callback) {
+        callback();
+      }
     });
+  },
+
+  close: function() {
+    server.close();
+    process.exit(0);
   }
 };
