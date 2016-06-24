@@ -1,18 +1,12 @@
-var reportRisk = require('../../../src/controllers/report-risk.js');
 var jsonschema = require('jsonschema');
 var schema = require('../../../src/controllers/schemas/report-risk.json');
 var Place = require('../../../src/domains/place.model.js');
+var placeService = require('../../../src/services/place-service.js');
+var Promise = require('q').Promise;
+var reportRisk = require('../../../src/controllers/report-risk.js');
 
 describe('Create a new risk report', function () {
-  var isPromiseSuccess;
-  var promise = {
-    then: function(success, error) {
-      if(isPromiseSuccess) {
-        success();
-      }
-      error();
-    }
-  };;
+  var restifyMock;
 
   beforeEach(function() {
     restifyMock = {
@@ -31,14 +25,16 @@ describe('Create a new risk report', function () {
         }
       }
     };
-    isPromiseSuccess = true;
-
-    spyOn(Place, 'create').andReturn(promise);
   });
 
-  it('should return 201 when all data is ok', function() {
+  it('should return 201 when all data is ok', function(done) {
+    spyOn(placeService, 'create').andReturn(Promise.resolve());
     reportRisk(restifyMock.request, restifyMock.response, restifyMock.next);
-    expect(restifyMock.response.send).toHaveBeenCalledWith(201);
+    setTimeout(function() {
+      expect(placeService.create).toHaveBeenCalledWith(restifyMock.request.params);
+      expect(restifyMock.response.send).toHaveBeenCalledWith(201);
+      done();
+    }, 0);
   });
 
   it('should return 400 when param address does not exists', function() {
@@ -47,26 +43,25 @@ describe('Create a new risk report', function () {
     expect(restifyMock.response.send).toHaveBeenCalledWith(400);
   });
 
-  it('should return 201 after validating with jsonschema', function() {
+  it('should return 201 after validating with jsonschema', function(done) {
+    spyOn(placeService, 'create').andReturn(Promise.resolve());
     spyOn(jsonschema, 'validate').andCallThrough();
     reportRisk(restifyMock.request, restifyMock.response, restifyMock.next);
-    expect(jsonschema.validate).toHaveBeenCalledWith(restifyMock.request.params, schema);
-    expect(restifyMock.response.send).toHaveBeenCalledWith(201);
+    setTimeout(function(){
+      expect(jsonschema.validate).toHaveBeenCalledWith(restifyMock.request.params, schema);
+      expect(restifyMock.response.send).toHaveBeenCalledWith(201);
+      done();
+    }, 0);
   });
 
-  it('should call Place.create and creates a risk with success', function() {
+  it('should call Place.create but fail to create a risk', function(done) {
+    spyOn(placeService, 'create').andReturn(Promise.reject());
     reportRisk(restifyMock.request, restifyMock.response, restifyMock.next);
-
-    expect(Place.create).toHaveBeenCalledWith(restifyMock.request.params);
-    expect(restifyMock.response.send).toHaveBeenCalledWith(201);
-  });
-
-  it('should call Place.create but fail to create a risk', function() {
-    isPromiseSuccess = false;
-    reportRisk(restifyMock.request, restifyMock.response, restifyMock.next);
-
-    expect(Place.create).toHaveBeenCalledWith(restifyMock.request.params);
-    expect(restifyMock.response.send).toHaveBeenCalledWith(500);
+      setTimeout(function(){
+      expect(placeService.create).toHaveBeenCalledWith(restifyMock.request.params);
+      expect(restifyMock.response.send).toHaveBeenCalledWith(500);
+      done();
+    }, 0);
   });
 
 

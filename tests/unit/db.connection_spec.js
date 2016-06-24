@@ -4,11 +4,11 @@ var mongoose = require('mongoose');
 describe('db connection', function () {
   describe('open', function () {
     it('connect to vamosjuntas database', function () {
-      spyOn(mongoose, 'connect');
+      spyOn(mongoose, 'createConnection');
 
       db.open();
 
-      expect(mongoose.connect).toHaveBeenCalledWith('mongodb://localhost/vamosjuntas_test');
+      expect(mongoose.createConnection).toHaveBeenCalledWith('mongodb://localhost/vamosjuntas_test', jasmine.any(Object));
     });
   });
 
