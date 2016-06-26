@@ -2,30 +2,33 @@ var Place = require('./../../../src/domains/place.model.js');
 var placeService = require('./../../../src/services/place-service.js');
 var chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
-var Promise = require('q').Promise;
+var sinon = require("sinon");
+var sinonChai = require("sinon-chai");
+var expect = chai.expect;
 
+chai.use(sinonChai);
 chai.use(chaiAsPromised);
 chai.should();
 
 describe('Place Service', function() {
   var params = {a: 1};
+  var stubFindOne = sinon.stub(Place, 'findOne');
 
-  it("should merge risks when a place already exists", function(done){
-    spyOn(Place, 'findOne').andReturn(Promise.resolve());
-    spyOn(placeService, 'mergeRisks');
+  it("should create a new place with a single risk when a place is not found", function(done){
+    stubFindOne.returns(Promise.resolve());
 
     placeService.create(params).should.be.fulfilled.and.notify(done);
 
-    expect(Place.findOne).toHaveBeenCalledWith(params);
+    expect(Place.findOne).to.have.been.calledWith(params);
   });
 
   it("should merge risks when a place already exists", function(done){
-    spyOn(Place, 'findOne').andReturn(Promise.resolve());
-    spyOn(placeService, 'mergeRisks');
+    stubFindOne.reset();
+    stubFindOne.returns(Promise.reject());
 
     placeService.create(params).should.be.fulfilled.and.notify(done);
 
-    expect(Place.findOne).toHaveBeenCalledWith(params);
+    expect(Place.findOne).to.have.been.calledWith(params);
   });
 
   it("should merge risk with a list of risks", function(){
@@ -65,7 +68,7 @@ describe('Place Service', function() {
     ];
 
     var risksMerged = placeService.mergeRisks(riskList, risk);
-    expect(risksMerged).toEqual(expectedList);
+    expect(risksMerged).to.deep.equal(expectedList);
   });
 
 });
