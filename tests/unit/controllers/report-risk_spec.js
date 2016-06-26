@@ -2,7 +2,7 @@ var jsonschema = require('jsonschema');
 var schema = require('../../../src/controllers/schemas/report-risk.json');
 var Place = require('../../../src/domains/place.model.js');
 var placeService = require('../../../src/services/place-service.js');
-var Promise = require('q').Promise;
+var Promise = require('bluebird');
 var reportRisk = require('../../../src/controllers/report-risk.js');
 
 describe('Create a new risk report', function () {

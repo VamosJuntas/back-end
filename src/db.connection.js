@@ -9,10 +9,8 @@ var connectionURL = {
 var open = function (mode) {
   var enviroment = process.env.NODE_ENV;
   var connection;
-  var options = { promiseLibrary: require('q').Promise };
 
-  mongoose.createConnection(connectionURL[enviroment], options);
-  mongoose.set('Promise', require('q').Promise);
+  mongoose.connect(connectionURL[enviroment]);
   connection = mongoose.connection;
   connection.on('error', console.error.bind(console, 'connection error:'));
   connection.once('open', console.log.bind(console, 'Connected'));
