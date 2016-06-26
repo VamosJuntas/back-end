@@ -57,7 +57,7 @@ describe('Create a new risk report', function () {
   it('should call Place.create but fail to create a risk', function(done) {
     spyOn(placeService, 'create').andReturn(Promise.reject());
     reportRisk(restifyMock.request, restifyMock.response, restifyMock.next);
-      setTimeout(function(){
+    setTimeout(function(){
       expect(placeService.create).toHaveBeenCalledWith(restifyMock.request.params);
       expect(restifyMock.response.send).toHaveBeenCalledWith(500);
       done();
