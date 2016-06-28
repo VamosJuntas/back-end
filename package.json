@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "node ./tests/test_setup.js",
-    "unit-test": "jasmine-node --verbose tests/unit",
+    "unit-test": "JASMINE_CONFIG_PATH=tests/unit/jasmine.json jasmine",
     "integration-test": "NODE_ENV=test node ./tests/integration/run_tests.js",
     "test": "npm run unit-test",
     "start": "node index.js"
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "frisby": "^0.8.5",
-    "jasmine-node": "^1.14.5",
+    "jasmine": "^2.4.1",
     "q": "^1.4.1"
   }
 }
