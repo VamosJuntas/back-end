@@ -28,7 +28,7 @@ describe('Create a new risk report', function () {
   });
 
   it('should return 201 when all data is ok', function(done) {
-    spyOn(placeService, 'create').andReturn(Promise.resolve());
+    spyOn(placeService, 'create').and.returnValue(Promise.resolve());
     reportRisk(restifyMock.request, restifyMock.response, restifyMock.next);
     setTimeout(function() {
       expect(placeService.create).toHaveBeenCalledWith(restifyMock.request.params);
@@ -44,8 +44,8 @@ describe('Create a new risk report', function () {
   });
 
   it('should return 201 after validating with jsonschema', function(done) {
-    spyOn(placeService, 'create').andReturn(Promise.resolve());
-    spyOn(jsonschema, 'validate').andCallThrough();
+    spyOn(placeService, 'create').and.returnValue(Promise.resolve());
+    spyOn(jsonschema, 'validate').and.callThrough();
     reportRisk(restifyMock.request, restifyMock.response, restifyMock.next);
     setTimeout(function(){
       expect(jsonschema.validate).toHaveBeenCalledWith(restifyMock.request.params, schema);
@@ -55,7 +55,7 @@ describe('Create a new risk report', function () {
   });
 
   it('should call Place.create but fail to create a risk', function(done) {
-    spyOn(placeService, 'create').andReturn(Promise.reject());
+    spyOn(placeService, 'create').and.returnValue(Promise.reject());
     reportRisk(restifyMock.request, restifyMock.response, restifyMock.next);
       setTimeout(function(){
       expect(placeService.create).toHaveBeenCalledWith(restifyMock.request.params);

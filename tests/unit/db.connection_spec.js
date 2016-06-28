@@ -1,21 +1,55 @@
-var db = require('../../src/db.connection');
 var mongoose = require('mongoose');
 
 describe('db connection', function () {
+  var db;
+
+  beforeEach(function () {
+    spyOn(mongoose, 'createConnection');
+    spyOn(mongoose, 'disconnect');
+  });
+
   describe('open', function () {
-    it('connect to vamosjuntas database', function () {
-      spyOn(mongoose, 'createConnection');
+    beforeEach(function () {
+      process.env.MONGODB_URI = 'mongo-production';
+      db = require('../../src/db.connection');
+    });
 
-      db.open();
+    afterEach(function () {
+      process.env.MONGODB_URI = undefined;
+      process.env.NODE_ENV = undefined;
+    });
 
-      expect(mongoose.createConnection).toHaveBeenCalledWith('mongodb://localhost/vamosjuntas_test', jasmine.any(Object));
+    describe('production environment', function () {
+      it('connect to vamosjuntas database', function () {
+        process.env.NODE_ENV = 'production';
+
+        db.open();
+
+        expect(mongoose.createConnection).toHaveBeenCalledWith('mongo-production', jasmine.any(Object));
+      });
+    });
+
+    describe('development environment', function () {
+      it('connect to vamosjuntas database', function () {
+        process.env.NODE_ENV = 'development';
+        db.open();
+
+        expect(mongoose.createConnection).toHaveBeenCalledWith('mongodb://localhost/vamosjuntas', jasmine.any(Object));
+      });
+    });
+
+    describe('test environment', function () {
+      it('connect to vamosjuntas database', function () {
+        process.env.NODE_ENV = 'test';
+        db.open();
+
+        expect(mongoose.createConnection).toHaveBeenCalledWith('mongodb://localhost/vamosjuntas_test', jasmine.any(Object));
+      });
     });
   });
 
   describe('close', function () {
     it('disconnect from vamosjuntas database', function () {
-      spyOn(mongoose, 'disconnect');
-
       db.close();
 
       expect(mongoose.disconnect).toHaveBeenCalled();

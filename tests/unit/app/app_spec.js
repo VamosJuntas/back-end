@@ -3,12 +3,13 @@ var place = require('../../../src/domains/place.model');
 
 describe('App', function () {
   var server, app;
-  app = require('../../../src/server.js');
 
   beforeEach(function () {
-    server = createSpyObj('server', ['get', 'post', 'listen', 'use']);
-    spyOn(restify, 'createServer').andReturn(server);
-    spyOn(restify, 'queryParser').andReturn(jasmine.any(Function));
+    server = jasmine.createSpyObj('server', ['get', 'post', 'listen', 'use']);
+    spyOn(restify, 'createServer').and.returnValue(server);
+    spyOn(restify, 'queryParser').and.returnValue(jasmine.any(Function));
+
+    app = require('../../../src/server.js');
   });
 
   describe('start', function () {
@@ -33,10 +34,10 @@ describe('App', function () {
 
     beforeEach(function() {
       var mongoResponse;
-      mongoResponse = createSpyObj('mongoResponse', ['exec']);
-      spyOn(place, 'find').andReturn(mongoResponse);
+      mongoResponse = jasmine.createSpyObj('mongoResponse', ['exec']);
+      spyOn(place, 'find').and.returnValue(mongoResponse);
       app.start();
-      risks = server.get.mostRecentCall.args[1];
+      risks = server.get.calls.mostRecent().args[1];
     });
 
     it('should call mongo with the correct parameters',function() {
@@ -58,7 +59,7 @@ describe('App', function () {
 
     it('should return a error when there is no coordinates', function() {
       request = {params: {}};
-      response = createSpyObj('response', ['send']);
+      response = jasmine.createSpyObj('response', ['send']);
 
       risks(request, response);
 
