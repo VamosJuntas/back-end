@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var placeSchema = mongoose.Schema({
+var reportSchema = mongoose.Schema({
   loc: {
     type: [Number],
     index: '2d'
@@ -18,4 +18,4 @@ var placeSchema = mongoose.Schema({
   ]
 });
 
-module.exports = mongoose.model('Place', placeSchema);
+module.exports = mongoose.model('Report', reportSchema);

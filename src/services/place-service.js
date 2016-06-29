@@ -1,4 +1,4 @@
-var Place = require('./../domains/place.model');
+var Place = require('./../domains/report.model');
 var Promise = require('q').Promise;
 
 module.exports.create = function(params) {

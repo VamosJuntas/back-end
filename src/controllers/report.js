@@ -1,6 +1,6 @@
 var jsonschema = require('jsonschema');
 var schema = require('./schemas/report.json');
-var Place = require('../domains/place.model.js');
+var Place = require('../domains/report.model.js');
 var placeService = require('../services/place-service.js');
 
 module.exports = function (request, response, next) {

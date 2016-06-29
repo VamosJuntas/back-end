@@ -1,5 +1,5 @@
 var restify = require('restify');
-var place = require('../../../src/domains/place.model');
+var place = require('../../../src/domains/report.model');
 
 describe('App', function () {
   var server, app;

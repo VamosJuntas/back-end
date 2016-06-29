@@ -1,4 +1,4 @@
-var Place = require('../domains/place.model');
+var Place = require('../domains/report.model');
 var isNumeric = require('is-numeric');
 
 module.exports = function(request, response) {
