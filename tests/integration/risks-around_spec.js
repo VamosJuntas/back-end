@@ -1,18 +1,19 @@
-// var frisby = require('frisby');
-//
-// frisby.create('Needs latitude and logitude params')
-//   .get('http://localhost:8080/risks-around')
-//   .expectStatus(400)
-//   .toss();
-//
-//
-// frisby.create('Search around a place')
-//   .get('http://localhost:8080/risks-around?latitude=1&longitude=2')
-//   .expectStatus(200)
-//   .expectHeaderContains('content-type', 'application/json')
-//   .toss();
-//
-// frisby.create('Should fail gracefully when latitude and longitude does not exists')
-//   .get('http://localhost:8080/risks-around?latitude=90&longitude=90')
-//   .expectStatus(204)
-//   .toss();
+var frisby = require('frisby');
+
+var risksAroundUrl = 'http://localhost:8080/risks-around';
+
+frisby.create('should have latitude and logitude params')
+  .get(risksAroundUrl)
+  .expectStatus(400)
+  .toss();
+
+frisby.create('should return place if in 1km radius')
+  .get(risksAroundUrl + '?latitude=-30.057725&longitude=-51.175642')
+  .expectStatus(200)
+  .expectHeaderContains('content-type', 'application/json')
+  .toss();
+
+frisby.create('should return no content if not in 1km radius')
+  .get(risksAroundUrl + '?latitude=90&longitude=90')
+  .expectStatus(204)
+  .toss();

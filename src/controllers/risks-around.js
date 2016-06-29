@@ -1,37 +1,33 @@
 var Place = require('../domains/place.model');
 var isNumeric = require('is-numeric');
-module.exports = function (request, response) {
 
+module.exports = function(request, response) {
   if (Object.keys(request.params).length === 0) {
     return response.send(400, 'Invalid params.');
   }
 
-  if (!isNumeric(request.params.latitude) || !isNumeric(request.params.longitude) ) {
+  var longitude = request.params.longitude;
+  var latitute = request.params.latitude;
+  if (!isNumeric(latitute) || !isNumeric(longitude)) {
     return response.send(400, 'Invalid latitude or longitude.');
   }
 
-  var maxDistance = 100;
-  var coords = [];
-  coords[0] = request.params.longitude;
-  coords[1] = request.params.latitude;
-
+  var radiusInKm = 1;
+  var kilometersPerDegree = 111.2;
   Place.find({
     loc: {
-      $near: coords,
-      $maxDistance: maxDistance
+      $near: [longitude, latitute],
+      $maxDistance: radiusInKm / kilometersPerDegree
     }
-  }).exec(function (err, places) {
+  }).exec(function(err, places) {
     if (err) {
       return console.error(err);
     }
-    console.log(places);
-    console.log(places.length);
 
     if (places.length === 0) {
-        return response.send(204);
+      return response.send(204);
     }
 
     return response.send(places);
   });
-
 };

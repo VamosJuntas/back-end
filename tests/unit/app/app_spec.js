@@ -51,7 +51,7 @@ describe('App', function () {
       expect(place.find).toHaveBeenCalledWith({
         loc: {
           $near: [1.2, 3.4],
-          $maxDistance: 100
+          $maxDistance: 0.008992805755395683
         }
       });
     });
