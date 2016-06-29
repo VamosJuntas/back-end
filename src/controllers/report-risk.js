@@ -1,5 +1,5 @@
 var jsonschema = require('jsonschema');
-var schema = require('./schemas/report-risk.json');
+var schema = require('./schemas/report.json');
 var Place = require('../domains/place.model.js');
 var placeService = require('../services/place-service.js');
 

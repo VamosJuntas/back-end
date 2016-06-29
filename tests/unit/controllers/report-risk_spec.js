@@ -1,5 +1,5 @@
 var jsonschema = require('jsonschema');
-var schema = require('../../../src/controllers/schemas/report-risk.json');
+var schema = require('../../../src/controllers/schemas/report.json');
 var Place = require('../../../src/domains/place.model.js');
 var placeService = require('../../../src/services/place-service.js');
 var Promise = require('q').Promise;
