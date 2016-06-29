@@ -1,15 +1,18 @@
 var mongoose = require('mongoose');
 
 var connectionURL = {
+  development: 'mongodb://localhost/vamosjuntas',
   test: 'mongodb://localhost/vamosjuntas_test',
-  app: 'mongodb://localhost/vamosjuntas'
+  production: process.env.MONGODB_URI
 };
 
 var open = function (mode) {
   var enviroment = process.env.NODE_ENV;
   var connection;
+  var options = { promiseLibrary: require('q').Promise };
 
-  mongoose.connect(connectionURL[enviroment]);
+  mongoose.createConnection(connectionURL[enviroment], options);
+  mongoose.set('Promise', require('q').Promise);
   connection = mongoose.connection;
   connection.on('error', console.error.bind(console, 'connection error:'));
   connection.once('open', console.log.bind(console, 'Connected'));
