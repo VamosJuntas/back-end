@@ -14,14 +14,9 @@ describe('Create a new risk report', function () {
       response: jasmine.createSpyObj('response', ['send']),
       request: {
         params: {
-          address: "Av. Ipiranga",
-          location: {
-            latitude: 10,
-            longitude: 20
-          },
-          risk: "Roubo",
-          date: "10/10/2016",
-          period: "Manhã"
+          geolocation: [10, 20],
+          category: "Roubo",
+          date: "10/10/2016"
         }
       }
     };
@@ -37,8 +32,20 @@ describe('Create a new risk report', function () {
     }, 0);
   });
 
-  it('should return 400 when param address does not exists', function() {
-    restifyMock.request.params.address = undefined;
+  it('should return 400 when param geolocation does not exists', function() {
+    restifyMock.request.params.geolocation = undefined;
+    reportRisk(restifyMock.request, restifyMock.response, restifyMock.next);
+    expect(restifyMock.response.send).toHaveBeenCalledWith(400);
+  });
+
+  it('should return 400 when param category does not exists', function() {
+    restifyMock.request.params.category = undefined;
+    reportRisk(restifyMock.request, restifyMock.response, restifyMock.next);
+    expect(restifyMock.response.send).toHaveBeenCalledWith(400);
+  });
+
+  it('should return 400 when param date does not exists', function() {
+    restifyMock.request.params.date = undefined;
     reportRisk(restifyMock.request, restifyMock.response, restifyMock.next);
     expect(restifyMock.response.send).toHaveBeenCalledWith(400);
   });
