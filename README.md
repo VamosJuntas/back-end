@@ -51,3 +51,10 @@ Run with **npm run unit-test**
 
 Start your local MongoDB with **brew services start mongodb**
 Run with **npm run integration-test**
+
+##Development
+
+Set your NODE_ENV environment variable to **development**:
+```
+export NODE_ENV=development
+```
