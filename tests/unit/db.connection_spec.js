@@ -3,6 +3,10 @@ var mongoose = require('mongoose');
 
 describe('db connection', function () {
   describe('open', function () {
+    beforeEach(function() {
+      process.env.NODE_ENV = 'test'
+    });
+
     it('connect to vamosjuntas database', function () {
       spyOn(mongoose, 'connect');
 
