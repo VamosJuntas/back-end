@@ -2,6 +2,10 @@
 
 # VamosJuntas Backend
 
+## Deprecated
+
+This repo was deprecated and new features will be implemented at vamosjuntas-api [https://github.com/VamosJuntas/vamosjuntas-api]
+
 ##Installation
 
 Install [Brew](http://brew.sh/) in your Mac and then install Mongo:
